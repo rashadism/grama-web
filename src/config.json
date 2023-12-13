@@ -1,0 +1,7 @@
+{
+  "clientID": "2wAT4q4melR03VNitSm1D2F0f1Ya",
+  "baseUrl": "https://api.asgardeo.io/t/mrashad",
+  "signInRedirectURL": "http://localhost:5173",
+  "signOutRedirectURL": "http://localhost:5173",
+  "scope": ["openid", "profile"]
+}
