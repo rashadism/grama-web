@@ -60,7 +60,9 @@ function App() {
               <Home />
             </FlowContextProvider>
           ) : section === "Police" ? (
-            <Police />
+            <FlowContextProvider>
+              <Police />
+            </FlowContextProvider>
           ) : section === "Identity" ? (
             <Identity />
           ) : section === "Address" ? (

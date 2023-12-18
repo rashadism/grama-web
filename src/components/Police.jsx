@@ -1,3 +1,4 @@
+import { useFlowContext } from "../contexts/FlowContext";
 import Offense from "./Offense";
 import { useState, useEffect } from "react";
 
@@ -7,8 +8,10 @@ const Police = () => {
   const [nic, setNic] = useState("");
   const [offenses, setOffenses] = useState([]); // [{id, date, description}]
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState({}); // {name, nic}
+  // const [user, setUser] = useState({}); // {name, nic}
+  const {user, setUser} = useFlowContext();
 
+  useEffect(() => {if (user) {setNic(user.nic_number)}}, [user]);
   const retrieve = async (e) => {
     e.preventDefault();
     const fetchOffenses = async () => {
