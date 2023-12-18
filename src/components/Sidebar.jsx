@@ -14,7 +14,6 @@ const links = [
   { title: "Home", icon: GrHome, key: "Home" },
   { title: "Police Check", icon: GrUserPolice, key: "Police" },
   { title: "Identity Check", icon: GrDocumentText, key: "Identity" },
-  { title: "Address Check", icon: GrContactInfo, key: "Address" },
 ];
 
 const Sidebar = () => {
