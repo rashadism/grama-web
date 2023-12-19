@@ -1,6 +1,7 @@
 import { useFlowContext } from "../contexts/FlowContext";
 import Offense from "./Offense";
 import { useState, useEffect } from "react";
+import { GrDownload } from "react-icons/gr";
 
 const API = "http://localhost:8080";
 
@@ -36,7 +37,7 @@ const Police = () => {
   };
 
   return (
-    <div className="bg-neutral/[0.2] px-24 py-24 flex flex-grow flex-col justify-start gap-4 max-h-screen overflow-auto">
+    <div className="bg-neutral/[0.2] px-24 py-12 flex flex-grow flex-col justify-start gap-4 max-h-screen overflow-auto">
       <div className="flex flex-col gap-4">
         <form action="submit" className="flex gap-2 w-1/2">
           <input
@@ -47,11 +48,11 @@ const Police = () => {
             onChange={(e) => setNic(e.target.value)}
           />
           <button
-            className="bg-primary text-white px-4 py-1 rounded-lg"
+            className="btn px-4 flex justify-center items-center gap-2"
             onClick={retrieve}
             disabled={loading}
-          >
-            RETRIEVE
+          ><GrDownload />
+            <div>Retrieve</div>
           </button>
         </form>
         <div className="flex w-1/2 justify-between p-5">

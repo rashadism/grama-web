@@ -18,7 +18,7 @@ const pending = [
       nic_number: "200045612345",
       identity_check: true,
       address_check: true,
-      police_check: false,
+      police_check: true,
       status: false,
     },
     {
@@ -58,25 +58,15 @@ const pending = [
       return val;
     } else if (typeof val === "boolean") {
       return (
-        <span className={val ? "badge-green" : "badge-yellow"}>
+        <span className={val ? "badge-green" : "badge-red"}>
           {val ? "passed" : "pending"}
         </span>
       );
     }
   };
 
-const Table = () => {
-    const {user, setUser} = useFlowContext();
-    const {setSection} = useViewContext();
-
-    const handleClick = (request) => {
-        setUser({nic_number: request.nic_number})
-        if (!request.identity_check) {
-            setSection("Identity")
-        } else if (!request.police_check) {
-            setSection("Police")
-        }
-    }
+const Table = ({handleClick}) => {
+    
   return (
     <table class="table-auto">
         <thead>
@@ -108,7 +98,7 @@ const Table = () => {
                 {process(request.police_check)}
               </td>
               <td className="p-2 text-center">{process(request.status)}</td>
-              <td className="p-2 text-center"><GrFormEdit className="hover:text-primary cursor-pointer" onClick={() => handleClick(request)}/></td>
+              <td className="p-2 text-center text-xl"><GrFormEdit className="hover:text-primary cursor-pointer" onClick={() => handleClick(request)}/></td>
 
             </tr>
           ))}

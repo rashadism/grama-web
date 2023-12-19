@@ -5,15 +5,18 @@ import {
   GrDocumentText,
   GrHome,
   GrCertificate,
+  GrGroup,
+  GrFlows,
+  GrInspect,
+  GrLogout,
 } from "react-icons/gr";
 import { useViewContext } from "../contexts/ViewContext";
 import { useAuthContext } from "@asgardeo/auth-react";
 
 const links = [
-  // { title: "Home", icon: SlHome },
-  { title: "Home", icon: GrHome, key: "Home" },
+  { title: "Requests", icon: GrFlows, key: "Home" },
   { title: "Police Check", icon: GrUserPolice, key: "Police" },
-  { title: "Identity Check", icon: GrDocumentText, key: "Identity" },
+  { title: "Accounts", icon: GrGroup, key: "Identity" },
 ];
 
 const Sidebar = () => {
@@ -26,8 +29,8 @@ const Sidebar = () => {
   };
   return (
     <div className="max-w-[18%] min-w-[18%] flex flex-col justify-between divide-y divide-neutral/[0.2]">
-      <div className="flex items-center justify-center gap-2 p-4 text-xl tracking-widest">
-        <GrCertificate className="text-primary" />
+      <div className="flex items-center justify-center gap-2 p-4 text-lg font-medium font-mono tracking-wide">
+        <GrInspect className="text-primary" />
         <span>Grama Portal</span>
       </div>
       <div className="flex flex-col flex-grow divide-y divide-neutral/[0.2]">
@@ -42,7 +45,13 @@ const Sidebar = () => {
             />
           ))}
         </div>
-        <button onClick={() => signOut()}>log out</button>
+        <button
+          onClick={() => signOut()}
+          className="btn flex justify-center items-center gap-2 mx-auto my-2 w-28 "
+        >
+          <GrLogout />
+          <div>Sign Out</div>
+        </button>
       </div>
     </div>
   );
