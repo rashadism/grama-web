@@ -2,9 +2,12 @@
   "baseUrl": "https://api.asgardeo.io/t/firstorganization",
   "clientID": "BsS9KNhfZ9fNjARy205fNtLGfo8a",
   "scope": [
-      "openid",
-      "testscope",
-      "user_details"
+    "openid",
+    "address",
+    "email",
+    "profile",
+    "testscope",
+    "user_details"
   ],
   "signInRedirectURL": "http://localhost:5173",
   "signOutRedirectURL": "http://localhost:5173"

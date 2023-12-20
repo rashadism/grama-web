@@ -18,13 +18,13 @@ const Editor = () => {
   const ref = useRef(null);
   return (
     <div className="flex flex-col gap-4">
-      <div
-        className="bg-primary text-white w-40 rounded-md flex p-1 hover:cursor-pointer gap-2 justify-around items-center"
+      <button
+        className="btn flex items-center gap-2 w-48 justify-center"
         onClick={() => alert(ref.current?.getMarkdown())}
       >
         <GrCertificate />
         Issue Certificate
-      </div>
+      </button>
       <MDXEditor
         ref={ref}
         markdown={preset}
