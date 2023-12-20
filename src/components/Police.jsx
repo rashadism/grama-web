@@ -1,7 +1,7 @@
 import { useFlowContext } from "../contexts/FlowContext";
 import Offense from "./Offense";
 import { useState, useEffect } from "react";
-import { GrDownload } from "react-icons/gr";
+import { GrCheckmark, GrDownload } from "react-icons/gr";
 
 const API = "http://localhost:8080";
 
@@ -10,9 +10,13 @@ const Police = () => {
   const [offenses, setOffenses] = useState([]); // [{id, date, description}]
   const [loading, setLoading] = useState(false);
   // const [user, setUser] = useState({}); // {name, nic}
-  const {user, setUser} = useFlowContext();
+  const { user, setUser } = useFlowContext();
 
-  useEffect(() => {if (user) {setNic(user.nic_number)}}, [user]);
+  useEffect(() => {
+    if (user) {
+      setNic(user.nic_number);
+    }
+  }, [user]);
   const retrieve = async (e) => {
     e.preventDefault();
     const fetchOffenses = async () => {
@@ -51,23 +55,32 @@ const Police = () => {
             className="btn px-4 flex justify-center items-center gap-2"
             onClick={retrieve}
             disabled={loading}
-          ><GrDownload />
+          >
+            <GrDownload />
             <div>Retrieve</div>
           </button>
+          <button
+            className="btn px-4 flex justify-center items-center gap-2 bg-primary text-white hover:bg-transparent hover:text-primary"
+            onClick={()=>{}}
+            disabled={loading}
+          >
+            <GrCheckmark />
+            <div>Approve</div>
+          </button>
         </form>
-        <div className="flex w-1/2 justify-between p-5">
-          <div className="font-semibold">{user.name}</div>
-          <div className="text-slate-400">{user.nic}</div>
+        <div className="flex w-1/2 justify-between">
+          {/* {offenses && <div>Offense history for person with NIC: {nic}</div>}{" "} */}
           {/* <div className="font-semibold">
             Details of entered user couldn't be found :(
           </div> */}
         </div>
         {offenses.map((offense) => (
           <Offense
-            key={offense.offense_id}
-            id={offense.offense_id}
+            key={offense.file_id}
+            id={offense.file_id}
             date={offense.offense_date}
-            description={offense.description}
+            description={offense.offense_description}
+            location={offense.location}
           />
         ))}
       </div>
