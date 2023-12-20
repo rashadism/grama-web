@@ -1,6 +1,6 @@
 {
-  "baseUrl": "https://api.asgardeo.io/t/firstorganization",
-  "clientID": "BsS9KNhfZ9fNjARy205fNtLGfo8a",
+  "baseUrl": "https://api.asgardeo.io/t/interns",
+  "clientID": "Lr9pCiuI_vflB0G0VH2QQpG1K6Qa",
   "scope": [
     "openid",
     "address",

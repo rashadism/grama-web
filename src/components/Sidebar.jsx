@@ -51,7 +51,7 @@ const Sidebar = () => {
         </div>
         <div className="flex flex-col">
           <div className="text-center">{derivedAuthenticationState?.decodedIDTokenPayload?.email}</div>
-          <div className="text-neutral text-center">GS Division: {derivedAuthenticationState?.decodedIDTokenPayload?.gs_division}</div>
+          <div className="text-neutral text-center">GS Division: {derivedAuthenticationState?.decodedIDTokenPayload?.address?.gs_division}</div>
 
           <button
             onClick={() => signOut()}
