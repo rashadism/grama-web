@@ -3,7 +3,8 @@
   "clientID": "BsS9KNhfZ9fNjARy205fNtLGfo8a",
   "scope": [
       "openid",
-      "profile"
+      "testscope",
+      "user_details"
   ],
   "signInRedirectURL": "http://localhost:5173",
   "signOutRedirectURL": "http://localhost:5173"

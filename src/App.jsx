@@ -49,6 +49,7 @@ function App() {
     signIn().catch(() => console.log("asd"));
   }, [signIn]);
 
+
   return (
     <>
       {state.isAuthenticated ? (
