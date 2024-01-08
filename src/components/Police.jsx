@@ -3,7 +3,7 @@ import Offense from "./Offense";
 import { useState, useEffect } from "react";
 import { GrCheckmark, GrDownload } from "react-icons/gr";
 
-const API = "http://localhost:8080";
+const API = "http://policesvc-360259460:8080";
 
 const Police = () => {
   const [nic, setNic] = useState("");
