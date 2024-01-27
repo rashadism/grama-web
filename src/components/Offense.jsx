@@ -2,7 +2,7 @@ import { GrCalendar, GrLocation } from "react-icons/gr";
 
 const Offense = ({ id, date, description, location }) => {
   return (
-    <div className="w-3/4 shadow-sm p-5 hover:shadow-md">
+    <div className="w-3/4 shadow-sm p-5 hover:shadow-md bg-white/[0.25]">
       <div className="flex justify-between mb-2">
         <div>
           <div className="font-medium flex items-center gap-1">
