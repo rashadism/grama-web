@@ -2,9 +2,9 @@ import { useFlowContext } from "../contexts/FlowContext";
 import Offense from "./Offense";
 import { useState, useEffect } from "react";
 import { GrCheckmark, GrDownload } from "react-icons/gr";
+import config from "../config.json"
 
-// const API = "http://localhost:8080";
-const API = "http://policesvc-360259460:8080/";
+const API = config.police_endpoint;
 
 
 const Police = () => {
