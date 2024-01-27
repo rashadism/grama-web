@@ -2,9 +2,8 @@ import { useFlowContext } from "../contexts/FlowContext";
 import Offense from "./Offense";
 import { useState, useEffect } from "react";
 import { GrCheckmark, GrDownload } from "react-icons/gr";
-import config from "../config.json"
 
-const API = config.police_endpoint_org;
+const API = window.config.police_endpoint;
 
 
 const Police = () => {

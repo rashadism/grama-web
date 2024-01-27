@@ -4,7 +4,17 @@ import App from "./App.jsx";
 import "./index.css";
 import { ViewContextProvider } from "./contexts/ViewContext.jsx";
 import { AuthProvider } from "@asgardeo/auth-react";
-import { default as config } from "./config.json";
+
+const config = {
+  baseUrl: window.config.baseUrl,
+  clientID: window.config.clientID,
+  scope: window.config.scope,
+  signInRedirectURL: window.config.signInRedirectURL,
+  signOutRedirectURL: window.config.signOutRedirectURL,
+  
+}
+
+console.log(config)
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
