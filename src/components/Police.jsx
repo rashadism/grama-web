@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { GrCheckmark, GrDownload } from "react-icons/gr";
 import config from "../config.json"
 
-const API = config.police_endpoint;
+const API = config.police_endpoint_org;
 
 
 const Police = () => {

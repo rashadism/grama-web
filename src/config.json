@@ -11,5 +11,6 @@
   ],
   "signInRedirectURL": "http://localhost:5173",
   "signOutRedirectURL": "http://localhost:5173",
-  "police_endpoint": "https://cf3a4176-54c9-4547-bcd6-c6fe400ad0d8-dev.e1-us-east-azure.choreoapis.dev/djxs/policesvc/endpoint-8080-5c6/v1.0"
+  "police_endpoint": "localhost:8080",
+  "police_endpoint_org": "https://cf3a4176-54c9-4547-bcd6-c6fe400ad0d8-dev-internal.e1-us-east-azure.internal.choreoapis.dev/djxs/policesvc/endpoint-8080-5c6/v1.0"
 }
