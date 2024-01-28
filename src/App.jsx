@@ -9,6 +9,7 @@ import { useAuthContext } from "@asgardeo/auth-react";
 import { useEffect, useState, useCallback } from "react";
 import Land from "./components/Land";
 import { FlowContextProvider } from "./contexts/FlowContext";
+import Spinner from "./components/Spinner";
 
 function App() {
   const { state, signIn, getBasicUserInfo, getIDToken, getDecodedIDToken, on } =
@@ -70,6 +71,10 @@ function App() {
           ) : (
             <NotFound />
           )}
+        </div>
+      ) : state.isLoading ? (
+        <div className="bg-neutral/[0.6] h-screen flex items-center justify-center">
+          <Spinner />
         </div>
       ) : (
         <Land handleLogin={handleLogin} />

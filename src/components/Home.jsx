@@ -13,11 +13,11 @@ const Home = () => {
   const { setSection } = useViewContext();
 
   const handleClick = (request) => {
-    setUser({ nic_number: request.nic_number });
     if (!request.identity_check) {
       setEditor(false);
       setSection("Identity");
     } else if (!request.police_check) {
+      setUser({ nic_number: request.nic_number });
       setEditor(false);
       setSection("Police");
     } else if (!request.status) {
@@ -27,7 +27,7 @@ const Home = () => {
 
   return (
     <div className="bg-neutral/[0.2] px-24 py-12 flex flex-grow flex-col justify-start gap-4 max-h-screen overflow-auto">
-      {editor ? <Editor />: <Table handleClick={handleClick} />}
+      {editor ? <Editor /> : <Table handleClick={handleClick} />}
     </div>
   );
 };
