@@ -46,9 +46,8 @@ function App() {
   const handleLogin = useCallback(() => {
     console.log("clicked log in");
     setHasLogoutFailureError(false);
-    signIn().catch(() => console.log("asd"));
+    signIn().catch((e) => console.log(e));
   }, [signIn]);
-
 
   return (
     <>
