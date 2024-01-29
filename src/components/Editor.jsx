@@ -5,6 +5,7 @@ import { BoldItalicUnderlineToggles } from "@mdxeditor/editor/plugins/toolbar/co
 import { toolbarPlugin } from "@mdxeditor/editor/plugins/toolbar";
 import { useRef } from "react";
 import { GrCertificate } from "react-icons/gr";
+import { useViewContext } from "../contexts/ViewContext";
 
 const preset = `
 To whom it may concern,
@@ -13,6 +14,7 @@ Yours,
 Grama Niladhari`;
 
 const Editor = () => {
+  const { setView } = useViewContext();
   const issue = () => {
     const post = async () => {
       try {
@@ -37,6 +39,7 @@ const Editor = () => {
         console.log("Response ", response);
 
         setLoading(false);
+        setView("Home");
       } catch (error) {
         setLoading(false);
         alert("Error");

@@ -13,7 +13,7 @@ const Police = () => {
   const [nic, setNic] = useState("");
   const [offenses, setOffenses] = useState([]); // [{id, date, description}]
   const [loading, setLoading] = useState(false);
-  const { user, setUser } = useViewContext();
+  const { user, setView } = useViewContext();
   const { getAccessToken } = useAuthContext();
 
   useEffect(() => {
@@ -74,6 +74,7 @@ const Police = () => {
         console.log("Response ", response);
 
         setLoading(false);
+        setView("Home");
       } catch (error) {
         setLoading(false);
         alert("Error");
@@ -106,7 +107,7 @@ const Police = () => {
           </button>
           <button
             className="btn px-4 flex justify-center items-center gap-2 bg-primary text-white hover:bg-transparent hover:text-primary"
-            onClick={() => {}}
+            onClick={approve}
             disabled={loading}
           >
             <GrCheckmark />

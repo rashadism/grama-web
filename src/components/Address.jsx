@@ -12,7 +12,7 @@ const MANAGER_API = window.config.manager_endpoint;
 const Address = () => {
   const [nic, setNic] = useState("");
   const [loading, setLoading] = useState(false);
-  const { user, setUser } = useViewContext();
+  const { user, setUser, setView } = useViewContext();
   const { getAccessToken } = useAuthContext();
 
   const retrieve = async (e) => {
@@ -64,6 +64,7 @@ const Address = () => {
         console.log("Response ", response);
 
         setLoading(false);
+        setView("Home");
       } catch (error) {
         setLoading(false);
         alert("Error");
