@@ -1,49 +1,59 @@
 import { GrFormEdit } from "react-icons/gr";
-import { useFlowContext } from "../contexts/FlowContext";
-import { useViewContext } from "../contexts/ViewContext";
 
 const pending = [
   {
-    request_id: "4321",
-    name: "Mohamed Rashad",
-    nic_number: "200023402567",
-    identity_check: true,
-    address_check: false,
-    police_check: false,
-    status: true,
+    requestID: 123,
+    userID: "john123",
+    reason: "Employment verification",
+    requestTypeID: 2,
+    policeCheckstatus: 3,
+    identityCheckstatus: 3,
+    addressCheckstatus: 3,
+    character: "Good",
+    statusID: 2,
+    gramaID: "G123",
   },
   {
-    request_id: "4322",
-    name: "Aisha Ahmed",
-    nic_number: "200045612345",
-    identity_check: true,
-    address_check: true,
-    police_check: true,
-    status: false,
+    requestID: 212,
+    userID: "jane456",
+    reason: "Rental application",
+    requestTypeID: 1,
+    policeCheckstatus: 2,
+    identityCheckstatus: 3,
+    addressCheckstatus: 3,
+    character: null,
+    statusID: 2,
+    gramaID: "G456",
   },
   {
-    request_id: "4323",
-    name: "John Doe",
-    nic_number: "200078901234",
-    identity_check: true,
-    address_check: true,
-    police_check: true,
-    status: true,
+    requestID: 333,
+    userID: "bob789",
+    reason: "Volunteer screening",
+    requestTypeID: 3,
+    policeCheckstatus: 2,
+    identityCheckstatus: 3,
+    addressCheckstatus: 1,
+    character: "Excellent",
+    statusID: 2,
+    gramaID: "G789",
   },
   {
-    request_id: "4324",
-    name: "Sara Smith",
-    nic_number: "200056789012",
-    identity_check: false,
-    address_check: false,
-    police_check: false,
-    status: false,
+    requestID: 456,
+    userID: "alice101",
+    reason: "Loan application",
+    requestTypeID: 4,
+    policeCheckstatus: 2,
+    identityCheckstatus: 2,
+    addressCheckstatus: 2,
+    character: null,
+    statusID: 1,
+    gramaID: "G101",
   },
 ];
 
 const cols = [
   "Request ID",
-  "Name",
+  "Username",
   "Identity Check",
   "Address Check",
   "Police Check",
@@ -52,14 +62,20 @@ const cols = [
 ];
 
 const process = (val) => {
-  if (typeof val === "string") {
-    return val;
-  } else if (typeof val === "boolean") {
+  if (typeof val === "boolean") {
     return (
       <span className={val ? "badge-green" : "badge-red"}>
         {val ? "passed" : "pending"}
       </span>
     );
+  } else return val;
+};
+
+const map = (input) => {
+  if (input === 1 || input === 2) {
+    return false;
+  } else if (input === 3) {
+    return true;
   }
 };
 
@@ -76,34 +92,37 @@ const Table = ({ handleClick }) => {
         </tr>
       </thead>
       <tbody>
-        {pending.map((request) => (
-          <tr
-            className="hover:bg-neutral/[0.05] divide-y"
-            key={request.request_id}
-          >
-            <td className="p-2 text-center">{process(request.request_id)}</td>
-            <td className="p-2 text-center flex flex-col">
-              <div className="text-left">{process(request.name)}</div>
-              <div className="text-left text-sm text-neutral">
-                {process(request.nic_number)}
-              </div>
-            </td>
-            <td className="p-2 text-center">
-              {process(request.identity_check)}
-            </td>
-            <td className="p-2 text-center">
-              {process(request.address_check)}
-            </td>
-            <td className="p-2 text-center">{process(request.police_check)}</td>
-            <td className="p-2 text-center">{process(request.status)}</td>
-            <td className="p-2 text-center text-xl">
-              <GrFormEdit
-                className="hover:text-primary cursor-pointer"
-                onClick={() => handleClick(request)}
-              />
-            </td>
-          </tr>
-        ))}
+        {pending.map((request) => {
+          return (
+            <tr
+              className="hover:bg-neutral/[0.05] divide-y"
+              key={request.requestID}
+            >
+              <td className="p-2 text-center">{process(request.requestID)}</td>
+              <td className="p-2 text-center flex flex-col">
+                {process(request.userID)}
+              </td>
+              <td className="p-2 text-center">
+                {process(map(request.identityCheckstatus))}
+              </td>
+              <td className="p-2 text-center">
+                {process(map(request.addressCheckstatus))}
+              </td>
+              <td className="p-2 text-center">
+                {process(map(request.policeCheckstatus))}
+              </td>
+              <td className="p-2 text-center">
+                {process(map(request.statusID))}
+              </td>
+              <td className="p-2 text-center text-xl">
+                <GrFormEdit
+                  className="hover:text-primary cursor-pointer"
+                  onClick={() => handleClick(request)}
+                />
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );

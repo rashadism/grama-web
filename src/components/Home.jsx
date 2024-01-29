@@ -4,30 +4,58 @@ import { useState } from "react";
 import Table from "./Table";
 import Editor from "./Editor";
 
+const map = (input) => {
+  if (input === 1 || input === 2) {
+    return false;
+  } else if (input === 3) {
+    return true;
+  }
+};
+
 const Home = () => {
   const { derivedAuthenticationState } = useViewContext();
-  const { step, setStep } = useFlowContext();
+  const { idUser, setIdUser } = useViewContext();
   const [editor, setEditor] = useState(false);
+  const [address, setAddress] = useState(false);
 
   const { user, setUser } = useFlowContext();
   const { setSection } = useViewContext();
 
   const handleClick = (request) => {
-    if (!request.identity_check) {
+    if (!map(request.identityCheckstatus)) {
       setEditor(false);
       setSection("Identity");
-    } else if (!request.police_check) {
-      setUser({ nic_number: request.nic_number });
+      console.log(request);
+      setIdUser(request);
+    } else if (!map(request.addressCheckstatus)) {
+      setEditor(false);
+      setAddress(true);
+    } else if (!map(request.policeCheckstatus)) {
+      // setUser({ nic_number: request.nic_number });
       setEditor(false);
       setSection("Police");
-    } else if (!request.status) {
+    } else if (!map(request.statusID)) {
       setEditor(true);
     }
   };
 
+  const Address = () => {
+    return (
+      <div className="bg-neutral/[0.2] px-24 py-24 flex flex-grow flex-col justify-start gap-4 max-h-screen overflow-auto">
+        <div className="flex flex-col gap-4">Address</div>
+      </div>
+    );
+  };
+
   return (
     <div className="bg-neutral/[0.2] px-24 py-12 flex flex-grow flex-col justify-start gap-4 max-h-screen overflow-auto">
-      {editor ? <Editor /> : <Table handleClick={handleClick} />}
+      {address ? (
+        <Address />
+      ) : editor ? (
+        <Editor />
+      ) : (
+        <Table handleClick={handleClick} />
+      )}
     </div>
   );
 };

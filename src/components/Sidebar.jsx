@@ -1,10 +1,6 @@
 import SidebarListElement from "./SidebarListElement";
 import {
   GrUserPolice,
-  GrContactInfo,
-  GrDocumentText,
-  GrHome,
-  GrCertificate,
   GrGroup,
   GrFlows,
   GrInspect,
@@ -24,15 +20,11 @@ const Sidebar = () => {
 
   const { signOut } = useAuthContext();
 
-  const handleLogout = () => {
-    signOut();
-  };
-
   const { derivedAuthenticationState } = useViewContext();
   // console.log(derivedAuthenticationState);
 
   return (
-    <div className="max-w-[18%] min-w-[18%] flex flex-col justify-between divide-y divide-neutral/[0.2]">
+    <div className="max-w-[22%] min-w-[22%] flex flex-col justify-between divide-y divide-neutral/[0.2]">
       <div className="flex items-center justify-center gap-2 p-4 text-lg font-medium font-mono tracking-wide">
         <GrInspect className="text-primary" />
         <span>Grama Portal</span>
@@ -54,11 +46,7 @@ const Sidebar = () => {
             {derivedAuthenticationState?.decodedIDTokenPayload?.email}
           </div>
           <div className="text-neutral text-center">
-            GS Division:{" "}
-            {
-              derivedAuthenticationState?.decodedIDTokenPayload?.address
-                ?.gs_division
-            }
+            GS ID: {derivedAuthenticationState?.decodedIDTokenPayload?.gid_g4}
           </div>
 
           <button

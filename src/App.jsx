@@ -26,7 +26,7 @@ function App() {
   const [hasAuthenticationErrors, setHasAuthenticationErrors] = useState(false);
   const [hasLogoutFailureError, setHasLogoutFailureError] = useState();
 
-  // console.log("access token", getAccessToken());
+  console.log("access token", getAccessToken());
   useEffect(() => {
     if (!state?.isAuthenticated) {
       return;
@@ -38,7 +38,7 @@ function App() {
       const decodedIDToken = await getDecodedIDToken();
       // console.log("basicUserInfo", basicUserInfo)
       // console.log("idToken", idToken)
-      // console.log("decodedIDToken", decodedIDToken)
+      console.log("decodedIDToken", decodedIDToken);
 
       const derivedState = {
         authenticateResponse: basicUserInfo,
