@@ -58,6 +58,8 @@ const Police = () => {
   return (
     <div className="bg-neutral/[0.2] px-24 py-12 flex flex-grow flex-col justify-start gap-4 max-h-screen overflow-auto">
       <div className="flex flex-col gap-4">
+        <div className="text-xl font-bold">Police Check</div>
+
         <form action="submit" className="flex gap-2 w-1/2">
           <input
             type="text"

@@ -29,7 +29,7 @@ const Home = () => {
       setIdUser(request);
     } else if (!map(request.addressCheckstatus)) {
       setEditor(false);
-      setAddress(true);
+      setSection("Address");
     } else if (!map(request.policeCheckstatus)) {
       // setUser({ nic_number: request.nic_number });
       setEditor(false);

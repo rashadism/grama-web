@@ -1,4 +1,6 @@
+import { useState, useEffect } from "react";
 import { GrFormEdit } from "react-icons/gr";
+import { useViewContext } from "../contexts/ViewContext";
 
 const pending = [
   {
@@ -9,7 +11,7 @@ const pending = [
     policeCheckstatus: 3,
     identityCheckstatus: 3,
     addressCheckstatus: 3,
-    character: "Good",
+    characterW: "Good",
     statusID: 2,
     gramaID: "G123",
   },
@@ -21,7 +23,7 @@ const pending = [
     policeCheckstatus: 2,
     identityCheckstatus: 3,
     addressCheckstatus: 3,
-    character: null,
+    characterW: null,
     statusID: 2,
     gramaID: "G456",
   },
@@ -33,7 +35,7 @@ const pending = [
     policeCheckstatus: 2,
     identityCheckstatus: 3,
     addressCheckstatus: 1,
-    character: "Excellent",
+    characterW: "Excellent",
     statusID: 2,
     gramaID: "G789",
   },
@@ -45,7 +47,7 @@ const pending = [
     policeCheckstatus: 2,
     identityCheckstatus: 2,
     addressCheckstatus: 2,
-    character: null,
+    characterW: null,
     statusID: 1,
     gramaID: "G101",
   },
@@ -80,6 +82,11 @@ const map = (input) => {
 };
 
 const Table = ({ handleClick }) => {
+  // const [pending, setPending] = useState([]);
+  const { section } = useViewContext();
+
+  // TODO: fetch from manager
+  useEffect(() => {}, [section]);
   return (
     <table className="table-auto">
       <thead>
