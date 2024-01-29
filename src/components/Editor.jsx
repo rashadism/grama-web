@@ -6,21 +6,52 @@ import { toolbarPlugin } from "@mdxeditor/editor/plugins/toolbar";
 import { useRef } from "react";
 import { GrCertificate } from "react-icons/gr";
 
-const preset = `Date today
-My address
-
+const preset = `
 To whom it may concern,
-I certify that Mr. User is a very good boi and has not done many crimes(police said so too)
+I certify that ${user.userID} is a resident of my GS division.
 Yours,
 Grama Niladhari`;
 
 const Editor = () => {
+  const issue = () => {
+    const post = async () => {
+      try {
+        setLoading(true);
+        const token = await getAccessToken();
+        const response = await axios.post(
+          `${MANAGER_API}/addressApprove`,
+          {
+            ...user,
+            statusID: 3,
+            characterW: ref.current?.getMarkdown(),
+          },
+          {
+            headers: {
+              accept: "*/*",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        console.log("Response ", response);
+
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        alert("Error");
+        console.error("Error fetching data:", error);
+      }
+    };
+    post();
+  };
+
   const ref = useRef(null);
   return (
     <div className="flex flex-col gap-4">
       <button
         className="btn flex items-center gap-2 w-48 justify-center"
-        onClick={() => alert(ref.current?.getMarkdown())}
+        onClick={issue}
       >
         <GrCertificate />
         Issue Certificate

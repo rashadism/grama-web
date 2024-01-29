@@ -1,16 +1,18 @@
 import { useAuthContext } from "@asgardeo/auth-react";
 import { useFlowContext } from "../contexts/FlowContext";
+import { useViewContext } from "../contexts/ViewContext";
 import Offense from "./Offense";
 import { useState, useEffect } from "react";
 import { GrCheckmark, GrDownload } from "react-icons/gr";
 import axios from "axios";
 
 const API = window.config.address_endpoint;
+const MANAGER_API = window.config.manager_endpoint;
 
 const Address = () => {
   const [nic, setNic] = useState("");
   const [loading, setLoading] = useState(false);
-  // const { user, setUser } = useFlowContext();
+  const { user, setUser } = useViewContext();
   const { getAccessToken } = useAuthContext();
 
   const retrieve = async (e) => {
@@ -39,6 +41,43 @@ const Address = () => {
     fetchAddress();
   };
 
+  const approve = () => {
+    const post = async () => {
+      try {
+        setLoading(true);
+        const token = await getAccessToken();
+        const response = await axios.post(
+          `${MANAGER_API}/addressApprove`,
+          {
+            ...user,
+            addressCheckstatus: 3,
+          },
+          {
+            headers: {
+              accept: "*/*",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        console.log("Response ", response);
+
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        alert("Error");
+        console.error("Error fetching data:", error);
+      }
+    };
+    post();
+  };
+
+  useEffect(() => {
+    // TODO: REPLACE WITH NIC
+    if (user) setNic(user.userID);
+  }, []);
+
   return (
     <div className="bg-neutral/[0.2] px-24 py-12 flex flex-grow flex-col justify-start gap-4 max-h-screen overflow-auto">
       <div className="flex flex-col gap-4">
@@ -62,7 +101,7 @@ const Address = () => {
           </button>
           <button
             className="btn px-4 flex justify-center items-center gap-2 bg-primary text-white hover:bg-transparent hover:text-primary"
-            onClick={() => {}}
+            onClick={approve}
             disabled={loading}
           >
             <GrCheckmark />

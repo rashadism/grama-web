@@ -6,6 +6,7 @@ import { useState } from "react";
 import axios from "axios";
 
 const API = window.config.identity_endpoint;
+const MANAGER_API = window.config.manager_endpoint;
 
 const Identity = () => {
   const { user } = useViewContext();
@@ -15,6 +16,36 @@ const Identity = () => {
   console.log(user);
 
   const activate = (request) => {
+    const update = async () => {
+      try {
+        setLoading(true);
+        const token = await getAccessToken();
+        const response = await axios.post(
+          `${MANAGER_API}/idApprove`,
+          {
+            ...user,
+            identityCheckstatus: 3,
+          },
+          {
+            headers: {
+              accept: "*/*",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        console.log("Response ", response);
+
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        alert("Error");
+        console.error("Error fetching data:", error);
+      }
+    };
+    update();
+
     const post = async () => {
       try {
         setLoading(true);

@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { GrCheckmark, GrDownload } from "react-icons/gr";
 import axios from "axios";
 import { useViewContext } from "../contexts/ViewContext";
+import Spinner from "./Spinner";
 
 const API = window.config.police_endpoint;
 
@@ -12,14 +13,14 @@ const Police = () => {
   const [nic, setNic] = useState("");
   const [offenses, setOffenses] = useState([]); // [{id, date, description}]
   const [loading, setLoading] = useState(false);
-  // const { user, setUser } = useViewContext();
+  const { user, setUser } = useViewContext();
   const { getAccessToken } = useAuthContext();
 
-  // useEffect(() => {
-  //   if (user) {
-  //     setNic(user.nic_number);
-  //   }
-  // }, [user]);
+  useEffect(() => {
+    // TODO: REPLACE WITH NIC
+    if (user) setNic(user.userID);
+  }, []);
+
   const retrieve = async (e) => {
     e.preventDefault();
     const fetchOffenses = async () => {
@@ -48,6 +49,38 @@ const Police = () => {
       }
     };
     fetchOffenses();
+  };
+
+  const approve = () => {
+    const post = async () => {
+      try {
+        setLoading(true);
+        const token = await getAccessToken();
+        const response = await axios.post(
+          `${MANAGER_API}/addressApprove/activateAccount`,
+          {
+            ...user,
+            policeCheckstatus: 3,
+          },
+          {
+            headers: {
+              accept: "*/*",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        console.log("Response ", response);
+
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        alert("Error");
+        console.error("Error fetching data:", error);
+      }
+    };
+    post();
   };
 
   return (
@@ -86,15 +119,21 @@ const Police = () => {
             Details of entered user couldn't be found :(
           </div> */}
         </div>
-        {offenses.map((offense) => (
-          <Offense
-            key={offense.file_id}
-            id={offense.file_id}
-            date={offense.offense_date}
-            description={offense.offense_description}
-            location={offense.location}
-          />
-        ))}
+        {!loading &&
+          offenses.map((offense) => (
+            <Offense
+              key={offense.file_id}
+              id={offense.file_id}
+              date={offense.offense_date}
+              description={offense.offense_description}
+              location={offense.location}
+            />
+          ))}
+        {loading && (
+          <div className="h-screen flex items-center justify-center">
+            <Spinner />
+          </div>
+        )}
       </div>
     </div>
   );
