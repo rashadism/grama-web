@@ -16,8 +16,6 @@ const links = [
 ];
 
 const Sidebar = () => {
-  const { section, setSection } = useViewContext();
-
   const { signOut } = useAuthContext();
 
   const { derivedAuthenticationState } = useViewContext();

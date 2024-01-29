@@ -4,6 +4,7 @@ import Offense from "./Offense";
 import { useState, useEffect } from "react";
 import { GrCheckmark, GrDownload } from "react-icons/gr";
 import axios from "axios";
+import { useViewContext } from "../contexts/ViewContext";
 
 const API = window.config.police_endpoint;
 
@@ -11,15 +12,14 @@ const Police = () => {
   const [nic, setNic] = useState("");
   const [offenses, setOffenses] = useState([]); // [{id, date, description}]
   const [loading, setLoading] = useState(false);
-  // const [user, setUser] = useState({}); // {name, nic}
-  const { user, setUser } = useFlowContext();
+  // const { user, setUser } = useViewContext();
   const { getAccessToken } = useAuthContext();
 
-  useEffect(() => {
-    if (user) {
-      setNic(user.nic_number);
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     setNic(user.nic_number);
+  //   }
+  // }, [user]);
   const retrieve = async (e) => {
     e.preventDefault();
     const fetchOffenses = async () => {
@@ -36,13 +36,8 @@ const Police = () => {
         const data = response.data;
 
         if (data.length !== 0) {
-          setUser({ name: data[0].name, nic: nic });
           setOffenses(data);
         } else {
-          setUser({
-            name: "Details of entered user couldn't be found :(",
-            nic: "",
-          });
           setOffenses([]);
         }
 

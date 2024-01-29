@@ -8,7 +8,6 @@ export const FlowContextProvider = ({ children }) => {
   const [addressCheck, setAddressCheck] = useState(false);
   const [identityCheck, setIdentityCheck] = useState(false);
   const [policeCheck, setPoliceCheck] = useState(false);
-  const [user, setUser] = useState({});
 
   return (
     <FlowContext.Provider
@@ -21,8 +20,6 @@ export const FlowContextProvider = ({ children }) => {
         setIdentityCheck,
         policeCheck,
         setPoliceCheck,
-        user,
-        setUser,
       }}
     >
       {children}

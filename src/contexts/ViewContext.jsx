@@ -8,7 +8,7 @@ export const ViewContextProvider = ({ children }) => {
   const [derivedAuthenticationState, setDerivedAuthenticationState] = useState(
     {}
   );
-  const [idUser, setIdUser] = useState({});
+  const [user, setUser] = useState({});
 
   return (
     <ViewContext.Provider
@@ -17,8 +17,8 @@ export const ViewContextProvider = ({ children }) => {
         setSection,
         derivedAuthenticationState,
         setDerivedAuthenticationState,
-        idUser,
-        setIdUser,
+        user,
+        setUser,
       }}
     >
       {children}

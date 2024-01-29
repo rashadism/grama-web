@@ -80,7 +80,7 @@ function App() {
           )}
         </div>
       ) : state.isLoading ? (
-        <div className="bg-neutral/[0.6] h-screen flex items-center justify-center">
+        <div className="bg-neutral/[0.6] h-screen flex flex-grow items-center justify-center">
           <Spinner />
         </div>
       ) : (

@@ -18,10 +18,11 @@ const Home = () => {
   const [editor, setEditor] = useState(false);
   const [address, setAddress] = useState(false);
 
-  const { user, setUser } = useFlowContext();
+  const { user, setUser } = useViewContext();
   const { setSection } = useViewContext();
 
   const handleClick = (request) => {
+    setUser(request);
     if (!map(request.identityCheckstatus)) {
       setEditor(false);
       setSection("Identity");

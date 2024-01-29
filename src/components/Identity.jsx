@@ -8,9 +8,11 @@ import axios from "axios";
 const API = window.config.identity_endpoint;
 
 const Identity = () => {
-  const { idUser } = useViewContext();
+  const { user } = useViewContext();
   const [loading, setLoading] = useState(false);
   const { getAccessToken } = useAuthContext();
+
+  console.log(user);
 
   const activate = (request) => {
     const post = async () => {
@@ -48,23 +50,23 @@ const Identity = () => {
     <div className="bg-neutral/[0.2] px-24 py-12 flex flex-grow flex-col justify-start gap-4 max-h-screen overflow-auto">
       <div className="text-2xl font-bold">Account activation request</div>
       <div>
-        <span className="font-bold">User id:</span> {idUser.userID}
+        <span className="font-bold">User id:</span> {user.userID}
       </div>
       <div>
         {" "}
-        <span className="font-bold">Request id:</span> {idUser.userID}
-        {idUser.requestID}
+        <span className="font-bold">Request id:</span> {user.userID}
+        {user.requestID}
       </div>
       <div>
         {" "}
         <span className="font-bold">Reason for request: </span>
-        {idUser.reason}
+        {user.reason}
       </div>
 
       <div>
         <button
           className="btn px-4 flex justify-center items-center gap-2 mt-6"
-          onClick={() => activate(idUser)}
+          onClick={() => activate(user)}
         >
           <div>Activate account</div>
           {/* manager eke pass identity check, activate in identity check */}
