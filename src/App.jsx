@@ -12,14 +12,21 @@ import { FlowContextProvider } from "./contexts/FlowContext";
 import Spinner from "./components/Spinner";
 
 function App() {
-  const { state, signIn, getBasicUserInfo, getIDToken, getDecodedIDToken, on } =
-    useAuthContext();
+  const {
+    state,
+    signIn,
+    getBasicUserInfo,
+    getIDToken,
+    getDecodedIDToken,
+    getAccessToken,
+  } = useAuthContext();
 
   const { derivedAuthenticationState, setDerivedAuthenticationState, section } =
     useViewContext();
   const [hasAuthenticationErrors, setHasAuthenticationErrors] = useState(false);
   const [hasLogoutFailureError, setHasLogoutFailureError] = useState();
 
+  // console.log("access token", getAccessToken());
   useEffect(() => {
     if (!state?.isAuthenticated) {
       return;

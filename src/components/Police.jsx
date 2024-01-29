@@ -1,10 +1,11 @@
+import { useAuthContext } from "@asgardeo/auth-react";
 import { useFlowContext } from "../contexts/FlowContext";
 import Offense from "./Offense";
 import { useState, useEffect } from "react";
 import { GrCheckmark, GrDownload } from "react-icons/gr";
+import axios from "axios";
 
 const API = window.config.police_endpoint;
-
 
 const Police = () => {
   const [nic, setNic] = useState("");
@@ -12,6 +13,7 @@ const Police = () => {
   const [loading, setLoading] = useState(false);
   // const [user, setUser] = useState({}); // {name, nic}
   const { user, setUser } = useFlowContext();
+  const { getAccessToken } = useAuthContext();
 
   useEffect(() => {
     if (user) {
@@ -21,22 +23,34 @@ const Police = () => {
   const retrieve = async (e) => {
     e.preventDefault();
     const fetchOffenses = async () => {
-      setLoading(true);
-      const res = await fetch(`${API}/offenses/${nic}`);
-      const data = await res.json();
-      console.log(data);
-      if (data.length !== 0) {
-        setUser({ name: data[0].name, nic: nic });
-        setOffenses(data);
-      } else {
-        setUser({
-          name: "Details of entered user couldn't be found :(",
-          nic: "",
+      try {
+        setLoading(true);
+        const token = await getAccessToken();
+        console.log(token);
+        const response = await axios.get(`${API}/offenses/${nic}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
-        setOffenses([]);
-      }
 
-      setLoading(false);
+        const data = response.data;
+
+        if (data.length !== 0) {
+          setUser({ name: data[0].name, nic: nic });
+          setOffenses(data);
+        } else {
+          setUser({
+            name: "Details of entered user couldn't be found :(",
+            nic: "",
+          });
+          setOffenses([]);
+        }
+
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        console.error("Error fetching data:", error);
+      }
     };
     fetchOffenses();
   };
@@ -62,7 +76,7 @@ const Police = () => {
           </button>
           <button
             className="btn px-4 flex justify-center items-center gap-2 bg-primary text-white hover:bg-transparent hover:text-primary"
-            onClick={()=>{}}
+            onClick={() => {}}
             disabled={loading}
           >
             <GrCheckmark />

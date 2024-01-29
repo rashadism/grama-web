@@ -12,7 +12,7 @@
   "dependencies": {
     "@asgardeo/auth-react": "^3.0.2",
     "@mdxeditor/editor": "^1.13.5",
-    "axios": "^1.6.2",
+    "axios": "^1.6.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.12.0",

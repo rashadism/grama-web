@@ -29,7 +29,7 @@ const Sidebar = () => {
   };
 
   const { derivedAuthenticationState } = useViewContext();
-  console.log(derivedAuthenticationState);
+  // console.log(derivedAuthenticationState);
 
   return (
     <div className="max-w-[18%] min-w-[18%] flex flex-col justify-between divide-y divide-neutral/[0.2]">
@@ -50,8 +50,16 @@ const Sidebar = () => {
           ))}
         </div>
         <div className="flex flex-col">
-          <div className="text-center">{derivedAuthenticationState?.decodedIDTokenPayload?.email}</div>
-          <div className="text-neutral text-center">GS Division: {derivedAuthenticationState?.decodedIDTokenPayload?.address?.gs_division}</div>
+          <div className="text-center">
+            {derivedAuthenticationState?.decodedIDTokenPayload?.email}
+          </div>
+          <div className="text-neutral text-center">
+            GS Division:{" "}
+            {
+              derivedAuthenticationState?.decodedIDTokenPayload?.address
+                ?.gs_division
+            }
+          </div>
 
           <button
             onClick={() => signOut()}
