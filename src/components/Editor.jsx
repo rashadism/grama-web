@@ -7,13 +7,13 @@ import { useRef } from "react";
 import { GrCertificate } from "react-icons/gr";
 import { useViewContext } from "../contexts/ViewContext";
 
-const preset = `
+const Editor = () => {
+  const { user } = useViewContext();
+  const preset = `
 To whom it may concern,
 I certify that ${user.userID} is a resident of my GS division.
 Yours,
 Grama Niladhari`;
-
-const Editor = () => {
   const { setView } = useViewContext();
   const issue = () => {
     const post = async () => {
