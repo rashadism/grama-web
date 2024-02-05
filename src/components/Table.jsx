@@ -22,6 +22,9 @@ const process = (val) => {
         {val ? "passed" : "pending"}
       </span>
     );
+  }
+  if (val === "gg") {
+    return <span className="badge-yellow">issued</span>;
   } else return val;
 };
 
@@ -30,6 +33,8 @@ const map = (input) => {
     return false;
   } else if (input === 3) {
     return true;
+  } else if (input === 4) {
+    return "gg";
   }
 };
 
