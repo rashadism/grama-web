@@ -7,6 +7,7 @@ import { useViewContext } from "../contexts/ViewContext";
 import Spinner from "./Spinner";
 
 const API = window.config.police_endpoint;
+const MANAGER_API = window.config.manager_endpoint;
 
 const Police = () => {
   const [nic, setNic] = useState("");
@@ -49,30 +50,32 @@ const Police = () => {
     fetchOffenses();
   };
 
-  const approve = () => {
+  const approve = (e) => {
+    e.preventDefault();
     const post = async () => {
       try {
         setLoading(true);
         const token = await getAccessToken();
-        const response = await axios.post(
-          `${MANAGER_API}/addressApprove/activateAccount`,
+        const data = {
+          ...user,
+          policeCheckStatus: 3,
+        };
+        const response = await fetch(
+          `${MANAGER_API}/policeApprove?approve=true`,
           {
-            ...user,
-            policeCheckstatus: 3,
-          },
-          {
+            method: "POST",
             headers: {
-              accept: "*/*",
               "Content-Type": "application/json",
+              Accept: "application/json",
               Authorization: `Bearer ${token}`,
             },
+            body: JSON.stringify(data),
           }
         );
 
         console.log("Response ", response);
 
         setLoading(false);
-        setView("Home");
       } catch (error) {
         setLoading(false);
         alert("Error");

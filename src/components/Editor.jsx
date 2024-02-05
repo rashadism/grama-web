@@ -7,7 +7,6 @@ import { useRef, useState } from "react";
 import { GrCertificate } from "react-icons/gr";
 import { useViewContext } from "../contexts/ViewContext";
 import { useAuthContext } from "@asgardeo/auth-react";
-import axios from "axios";
 
 const MANAGER_API = window.config.manager_endpoint;
 
@@ -17,10 +16,11 @@ const Editor = () => {
   const { getAccessToken } = useAuthContext();
   const preset = `
 To whom it may concern,
-I certify that ${user.userID} is a resident of my GS division.
+I certify that ${user.name} who resides at ${user.number}, ${user.street}, ${user.district} district is indeed a resident of my GS division ${user.gramaID}.
 Yours,
-Grama Niladhari`;
-  const { setView } = useViewContext();
+Grama Niladhari
+Division: ${user.gramaID}`;
+  const { setSection } = useViewContext();
   const issue = () => {
     const post = async () => {
       try {
@@ -46,7 +46,7 @@ Grama Niladhari`;
         console.log("Response ", response);
 
         setLoading(false);
-        setView("Home");
+        // setSection("Home");
       } catch (error) {
         setLoading(false);
         alert("Error");
