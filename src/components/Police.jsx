@@ -9,7 +9,7 @@ import Spinner from "./Spinner";
 const API = window.config.police_endpoint;
 const MANAGER_API = window.config.manager_endpoint;
 
-const Police = () => {
+const Police = ({ notify }) => {
   const [nic, setNic] = useState("");
   const [offenses, setOffenses] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -40,10 +40,12 @@ const Police = () => {
         } else {
           setOffenses([]);
         }
+        notify(true);
 
         setLoading(false);
       } catch (error) {
         setLoading(false);
+        notify(false);
         console.error("Error fetching data:", error);
       }
     };
@@ -73,13 +75,12 @@ const Police = () => {
           }
         );
 
-        console.log("Response ", response);
-
+        notify(true);
         setLoading(false);
         setSection("Home");
       } catch (error) {
         setLoading(false);
-        alert("Error");
+        notify(false);
         console.error("Error fetching data:", error);
       }
     };

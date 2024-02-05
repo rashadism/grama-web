@@ -7,7 +7,7 @@ import Spinner from "./Spinner";
 const IDENTITY_API = window.config.identity_endpoint;
 const MANAGER_API = window.config.manager_endpoint;
 
-const Identity = () => {
+const Identity = ({ notify }) => {
   const { user, setSection } = useViewContext();
   const [loading, setLoading] = useState(false);
   const { getAccessToken } = useAuthContext();
@@ -35,9 +35,11 @@ const Identity = () => {
         // console.log("Response(mn) ", response);
 
         setLoading(false);
+        notify(true);
         setSection("Home");
       } catch (error) {
         setLoading(false);
+        notify(false);
         alert("Error");
         console.log("Error fetching data(update):", error);
       }
@@ -67,8 +69,10 @@ const Identity = () => {
         console.log(response);
 
         setLoading(false);
+        // notify(true);
       } catch (error) {
         setLoading(false);
+        notify(false);
         alert("Error");
         console.log("Error fetching data(update):", error);
       }

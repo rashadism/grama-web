@@ -9,8 +9,16 @@ import { useAuthContext } from "@asgardeo/auth-react";
 import { useEffect, useState, useCallback } from "react";
 import Land from "./components/Land";
 import Spinner from "./components/Spinner";
+import toast, { Toaster } from "react-hot-toast";
 
 function App() {
+  const notify = (val) => {
+    if (val) {
+      toast.success("Success :)");
+    } else {
+      toast.error("Error :(");
+    }
+  };
   const {
     state,
     signIn,
@@ -59,13 +67,13 @@ function App() {
           <Sidebar />
 
           {section === "Home" ? (
-            <Home />
+            <Home notify={notify} />
           ) : section === "Police" ? (
-            <Police />
+            <Police notify={notify} />
           ) : section === "Identity" ? (
-            <Identity />
+            <Identity notify={notify} />
           ) : section === "Address" ? (
-            <Address />
+            <Address notify={notify} />
           ) : (
             <NotFound />
           )}
@@ -77,6 +85,7 @@ function App() {
       ) : (
         <Land handleLogin={handleLogin} />
       )}
+      <Toaster position="bottom-right" reverseOrder={false} />
     </>
   );
 }

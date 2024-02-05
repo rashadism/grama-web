@@ -16,6 +16,7 @@ const SidebarListElement = ({ title, icon: Icon, view }) => {
       onClick={() => {
         if (view != "Identity") {
           setSection(view);
+          setUser({});
         }
       }}
     >

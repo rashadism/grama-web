@@ -10,7 +10,7 @@ import { useAuthContext } from "@asgardeo/auth-react";
 
 const MANAGER_API = window.config.manager_endpoint;
 
-const Editor = () => {
+const Editor = ({ notify }) => {
   const { user, setEditor } = useViewContext();
   const [loading, setLoading] = useState(false);
   const { getAccessToken } = useAuthContext();
@@ -20,7 +20,6 @@ I certify that ${user.name} who resides at ${user.number}, ${user.street}, ${use
 Yours,
 Grama Niladhari
 Division: ${user.gramaID}`;
-  const { setSection } = useViewContext();
   const ref = useRef(null);
   const issue = () => {
     const post = async () => {
@@ -47,9 +46,10 @@ Division: ${user.gramaID}`;
 
         setLoading(false);
         setEditor(false);
+        notify(true);
       } catch (error) {
         setLoading(false);
-        alert("Error");
+        notify(false);
         console.log("Error fetching data:", error);
       }
     };

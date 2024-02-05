@@ -8,7 +8,7 @@ import Spinner from "./Spinner";
 const ADDRESS_API = window.config.address_endpoint;
 const MANAGER_API = window.config.manager_endpoint;
 
-const Address = () => {
+const Address = ({ notify }) => {
   const [nic, setNic] = useState("");
   const [loading, setLoading] = useState(false);
   const { user, setUser, setSection } = useViewContext();
@@ -32,9 +32,11 @@ const Address = () => {
 
         const data = response.data;
         setUserDB(data);
+        notify(true);
         setLoading(false);
       } catch (error) {
         setLoading(false);
+        notify(false);
         console.error("Error fetching data:", error);
       }
     };
@@ -66,10 +68,11 @@ const Address = () => {
         console.log("Response ", response);
 
         setLoading(false);
+        notify(true);
         setSection("Home");
       } catch (error) {
         setLoading(false);
-        alert("Error");
+        notify(false);
         console.error("Error fetching data:", error);
       }
     };

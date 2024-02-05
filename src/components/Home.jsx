@@ -11,7 +11,7 @@ const map = (input) => {
   }
 };
 
-const Home = () => {
+const Home = ({ notify }) => {
   const { user, setUser, editor, setEditor } = useViewContext();
   const { setSection } = useViewContext();
 
@@ -34,7 +34,11 @@ const Home = () => {
 
   return (
     <div className="bg-neutral/[0.2] px-24 py-12 flex flex-grow flex-col justify-start gap-4 max-h-screen overflow-auto">
-      {editor ? <Editor /> : <Table handleClick={handleClick} />}
+      {editor ? (
+        <Editor notify={notify} />
+      ) : (
+        <Table handleClick={handleClick} />
+      )}
     </div>
   );
 };
