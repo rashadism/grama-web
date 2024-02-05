@@ -5,57 +5,6 @@ import { useAuthContext } from "@asgardeo/auth-react";
 import axios from "axios";
 import Spinner from "./Spinner";
 
-const pending = [
-  {
-    requestID: 123,
-    userID: "john123",
-    reason: "Employment verification",
-    requestTypeID: 2,
-    policeCheckstatus: 3,
-    identityCheckstatus: 3,
-    addressCheckstatus: 3,
-    characterW: "Good",
-    statusID: 2,
-    gramaID: "G123",
-  },
-  {
-    requestID: 212,
-    userID: "jane456",
-    reason: "Rental application",
-    requestTypeID: 1,
-    policeCheckstatus: 2,
-    identityCheckstatus: 3,
-    addressCheckstatus: 3,
-    characterW: null,
-    statusID: 2,
-    gramaID: "G456",
-  },
-  {
-    requestID: 333,
-    userID: "bob789",
-    reason: "Volunteer screening",
-    requestTypeID: 3,
-    policeCheckstatus: 2,
-    identityCheckstatus: 3,
-    addressCheckstatus: 1,
-    characterW: "Excellent",
-    statusID: 2,
-    gramaID: "G789",
-  },
-  {
-    requestID: 456,
-    userID: "alice101",
-    reason: "Loan application",
-    requestTypeID: 4,
-    policeCheckstatus: 2,
-    identityCheckstatus: 2,
-    addressCheckstatus: 2,
-    characterW: null,
-    statusID: 1,
-    gramaID: "G101",
-  },
-];
-
 const cols = [
   "Request ID",
   "Username",
@@ -180,7 +129,7 @@ const Table = ({ handleClick }) => {
             >
               <td className="p-2 text-center">{process(request.requestID)}</td>
               <td className="p-2 text-center flex flex-col">
-                {process(request.userID)}
+                {process(request.name)}
               </td>
               <td className="p-2 text-center">
                 {process(map(request.identityCheckstatus))}

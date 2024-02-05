@@ -1,7 +1,5 @@
 import { useAuthContext } from "@asgardeo/auth-react";
-import { useFlowContext } from "../contexts/FlowContext";
 import { useViewContext } from "../contexts/ViewContext";
-import Offense from "./Offense";
 import { useState, useEffect } from "react";
 import { GrCheckmark, GrDownload } from "react-icons/gr";
 import axios from "axios";
@@ -46,25 +44,42 @@ const Address = () => {
       try {
         setLoading(true);
         const token = await getAccessToken();
-        const response = await axios.post(
-          `${MANAGER_API}/addressApprove`,
+        const data = {
+          ...user,
+          addressCheckstatus: 3,
+        };
+        const response = await fetch(
+          `${MANAGER_API}/addressApprove?approve=true`,
           {
-            ...user,
-            addressCheckstatus: 3,
-          },
-          {
+            method: "POST",
             headers: {
-              accept: "*/*",
               "Content-Type": "application/json",
+              Accept: "application/json",
               Authorization: `Bearer ${token}`,
             },
+            body: JSON.stringify(data),
           }
         );
+
+        // const responsee = await axios.post(
+        //   `${MANAGER_API}/addressApprove`,
+        //   {
+        //     ...user,
+        //     addressCheckstatus: 3,
+        //   },
+        //   {
+        //     headers: {
+        //       accept: "*/*",
+        //       "Content-Type": "application/json",
+        //       Authorization: `Bearer ${token}`,
+        //     },
+        //   }
+        // );
 
         console.log("Response ", response);
 
         setLoading(false);
-        setView("Home");
+        // setView("Home");
       } catch (error) {
         setLoading(false);
         alert("Error");
@@ -75,8 +90,7 @@ const Address = () => {
   };
 
   useEffect(() => {
-    // TODO: REPLACE WITH NIC
-    if (user) setNic(user.userID);
+    if (user) setNic(user.NIC);
   }, []);
 
   return (

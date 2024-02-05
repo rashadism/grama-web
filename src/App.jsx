@@ -8,7 +8,6 @@ import NotFound from "./components/NotFound";
 import { useAuthContext } from "@asgardeo/auth-react";
 import { useEffect, useState, useCallback } from "react";
 import Land from "./components/Land";
-import { FlowContextProvider } from "./contexts/FlowContext";
 import Spinner from "./components/Spinner";
 
 function App() {
@@ -23,7 +22,6 @@ function App() {
 
   const { derivedAuthenticationState, setDerivedAuthenticationState, section } =
     useViewContext();
-  const [hasAuthenticationErrors, setHasAuthenticationErrors] = useState(false);
   const [hasLogoutFailureError, setHasLogoutFailureError] = useState();
 
   console.log("access token", getAccessToken());
@@ -36,9 +34,7 @@ function App() {
       const basicUserInfo = await getBasicUserInfo();
       const idToken = await getIDToken();
       const decodedIDToken = await getDecodedIDToken();
-      // console.log("basicUserInfo", basicUserInfo)
-      // console.log("idToken", idToken)
-      console.log("decodedIDToken", decodedIDToken);
+      // console.log("decodedIDToken", decodedIDToken);
 
       const derivedState = {
         authenticateResponse: basicUserInfo,
@@ -52,9 +48,8 @@ function App() {
   }, [state.isAuthenticated, getBasicUserInfo, getIDToken, getDecodedIDToken]);
 
   const handleLogin = useCallback(() => {
-    console.log("clicked log in");
     setHasLogoutFailureError(false);
-    signIn().catch((e) => console.log(e));
+    signIn().catch((e) => alert(e));
   }, [signIn]);
 
   return (
@@ -64,13 +59,9 @@ function App() {
           <Sidebar />
 
           {section === "Home" ? (
-            <FlowContextProvider>
-              <Home />
-            </FlowContextProvider>
+            <Home />
           ) : section === "Police" ? (
-            <FlowContextProvider>
-              <Police />
-            </FlowContextProvider>
+            <Police />
           ) : section === "Identity" ? (
             <Identity />
           ) : section === "Address" ? (

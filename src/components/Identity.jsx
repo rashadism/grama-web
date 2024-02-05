@@ -1,11 +1,9 @@
 import React from "react";
-import { useFlowContext } from "../contexts/FlowContext";
 import { useViewContext } from "../contexts/ViewContext";
 import { useAuthContext } from "@asgardeo/auth-react";
 import { useState } from "react";
-import axios from "axios";
 
-const API = window.config.identity_endpoint;
+const IDENTITY_API = window.config.identity_endpoint;
 const MANAGER_API = window.config.manager_endpoint;
 
 const Identity = () => {
@@ -13,83 +11,93 @@ const Identity = () => {
   const [loading, setLoading] = useState(false);
   const { getAccessToken } = useAuthContext();
 
-  console.log(user);
-
   const activate = (request) => {
-    const update = async () => {
+    const updateManager = async () => {
+      const data = {
+        ...request,
+        identityCheckstatus: 3,
+      };
+      console.log("data", data);
       try {
         setLoading(true);
         const token = await getAccessToken();
-        const response = await axios.post(
-          `${MANAGER_API}/idApprove`,
-          {
-            ...user,
-            identityCheckstatus: 3,
+        const response = await fetch(`${MANAGER_API}/idApprove?approve=true`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
           },
-          {
-            headers: {
-              accept: "*/*",
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+          body: JSON.stringify(data),
+        });
 
-        console.log("Response ", response);
+        // console.log("Response(mn) ", response);
 
         setLoading(false);
       } catch (error) {
         setLoading(false);
         alert("Error");
-        console.error("Error fetching data:", error);
+        console.log("Error fetching data(update):", error);
       }
     };
-    update();
+    updateManager();
 
-    const post = async () => {
+    const updateId = async () => {
+      const data = {
+        NIC: request.NIC,
+        Name: request.name,
+        Userid: request.userID,
+        gramaId: request.gramaID,
+      };
+      // console.log("data", data);
       try {
         setLoading(true);
         const token = await getAccessToken();
-        const response = await axios.post(
-          `${API}/offenses/activateAccount`,
-          {
-            NIC: "",
-            Name: "",
-            Userid: request.userID,
-            gramaId: request.gramaID,
+        const response = await fetch(`${IDENTITY_API}/activateAccount`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
           },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+          body: JSON.stringify(data),
+        });
 
-        console.log("Response ", response);
+        // console.log("Response(id) ", response);
 
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        console.error("Error fetching data:", error);
+        alert("Error");
+        console.log("Error fetching data(update):", error);
       }
     };
-    post();
+    updateId();
   };
 
   return (
     <div className="bg-neutral/[0.2] px-24 py-12 flex flex-grow flex-col justify-start gap-4 max-h-screen overflow-auto">
       <div className="text-2xl font-bold">Account activation request</div>
       <div>
+        <span className="font-bold">Name: </span> {user.name}
+      </div>
+      <div>
         <span className="font-bold">User id:</span> {user.userID}
       </div>
+
       <div>
-        {" "}
-        <span className="font-bold">Request id:</span> {user.userID}
-        {user.requestID}
+        <span className="font-bold">Address: </span> {user.number}
+        {", "}
+        {user.street}
+        {", "}
+        {user.district}
+        {", "}
+        {user.province}
       </div>
       <div>
-        {" "}
+        <span className="font-bold">Request id:</span> {user.requestID}
+      </div>
+      <div>
         <span className="font-bold">Reason for request: </span>
         {user.reason}
       </div>

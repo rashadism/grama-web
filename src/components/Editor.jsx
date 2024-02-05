@@ -3,12 +3,18 @@ import { MDXEditor } from "@mdxeditor/editor/MDXEditor";
 import { headingsPlugin } from "@mdxeditor/editor/plugins/headings";
 import { BoldItalicUnderlineToggles } from "@mdxeditor/editor/plugins/toolbar/components/BoldItalicUnderlineToggles";
 import { toolbarPlugin } from "@mdxeditor/editor/plugins/toolbar";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { GrCertificate } from "react-icons/gr";
 import { useViewContext } from "../contexts/ViewContext";
+import { useAuthContext } from "@asgardeo/auth-react";
+import axios from "axios";
+
+const MANAGER_API = window.config.manager_endpoint;
 
 const Editor = () => {
   const { user } = useViewContext();
+  const [loading, setLoading] = useState(false);
+  const { getAccessToken } = useAuthContext();
   const preset = `
 To whom it may concern,
 I certify that ${user.userID} is a resident of my GS division.
@@ -20,21 +26,22 @@ Grama Niladhari`;
       try {
         setLoading(true);
         const token = await getAccessToken();
-        const response = await axios.post(
-          `${MANAGER_API}/addressApprove`,
-          {
-            ...user,
-            statusID: 3,
-            characterW: ref.current?.getMarkdown(),
+        console.log(user, "user");
+        const data = {
+          ...user,
+          statusID: 4,
+          characterW: ref.current?.getMarkdown(),
+        };
+        const response = await fetch(`${MANAGER_API}/writeCharacter`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
           },
-          {
-            headers: {
-              accept: "*/*",
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+          // mode: "no-cors",
+          body: JSON.stringify(data),
+        });
 
         console.log("Response ", response);
 

@@ -1,5 +1,4 @@
 import { useAuthContext } from "@asgardeo/auth-react";
-import { useFlowContext } from "../contexts/FlowContext";
 import Offense from "./Offense";
 import { useState, useEffect } from "react";
 import { GrCheckmark, GrDownload } from "react-icons/gr";
@@ -11,14 +10,13 @@ const API = window.config.police_endpoint;
 
 const Police = () => {
   const [nic, setNic] = useState("");
-  const [offenses, setOffenses] = useState([]); // [{id, date, description}]
+  const [offenses, setOffenses] = useState([]);
   const [loading, setLoading] = useState(false);
   const { user, setView } = useViewContext();
   const { getAccessToken } = useAuthContext();
 
   useEffect(() => {
-    // TODO: REPLACE WITH NIC
-    if (user) setNic(user.userID);
+    if (user) setNic(user.NIC);
   }, []);
 
   const retrieve = async (e) => {
@@ -114,12 +112,6 @@ const Police = () => {
             <div>Approve</div>
           </button>
         </form>
-        <div className="flex w-1/2 justify-between">
-          {/* {offenses && <div>Offense history for person with NIC: {nic}</div>}{" "} */}
-          {/* <div className="font-semibold">
-            Details of entered user couldn't be found :(
-          </div> */}
-        </div>
         {!loading &&
           offenses.map((offense) => (
             <Offense
