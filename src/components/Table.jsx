@@ -48,7 +48,7 @@ const Table = ({ handleClick }) => {
       try {
         setLoading(true);
         const token = await getAccessToken();
-        console.log(token);
+        // console.log(token);
         const gid = derivedAuthenticationState?.decodedIDTokenPayload?.gid_g4;
         const response = await axios.get(
           `${API}/getRequestsbyGramaID?gramaID=${gid}`,
@@ -77,7 +77,7 @@ const Table = ({ handleClick }) => {
       try {
         setLoading(true);
         const token = await getAccessToken();
-        console.log(token);
+        // console.log(token);
         const gid = derivedAuthenticationState?.decodedIDTokenPayload?.gid_g4;
         const response = await axios.get(
           `${API}/getRequestsbyGramaID?gramaID=${gid}`,

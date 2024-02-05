@@ -4,14 +4,16 @@ import { useState, useEffect } from "react";
 import { GrCheckmark, GrDownload } from "react-icons/gr";
 import axios from "axios";
 
-const API = window.config.address_endpoint;
+const ADDRESS_API = window.config.address_endpoint;
 const MANAGER_API = window.config.manager_endpoint;
 
 const Address = () => {
   const [nic, setNic] = useState("");
   const [loading, setLoading] = useState(false);
   const { user, setUser, setView } = useViewContext();
+  const [userDB, setUserDB] = useState({});
   const { getAccessToken } = useAuthContext();
+  const usr = [user, userDB];
 
   const retrieve = async (e) => {
     e.preventDefault();
@@ -19,21 +21,20 @@ const Address = () => {
       try {
         setLoading(true);
         const token = await getAccessToken();
-        const template = `${API}/getPerson?nic=${nic}`;
-        console.log(template);
+        const template = `${ADDRESS_API}/getPersonAddress?nic=${nic}`;
         const response = await axios.get(template, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
+        console.log("response", response);
 
         const data = response.data;
-        console.log(data);
-
+        setUserDB(data);
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        console.error("Error fetching data:", error.response.data);
+        console.error("Error fetching data:", error);
       }
     };
     fetchAddress();
@@ -61,25 +62,9 @@ const Address = () => {
           }
         );
 
-        // const responsee = await axios.post(
-        //   `${MANAGER_API}/addressApprove`,
-        //   {
-        //     ...user,
-        //     addressCheckstatus: 3,
-        //   },
-        //   {
-        //     headers: {
-        //       accept: "*/*",
-        //       "Content-Type": "application/json",
-        //       Authorization: `Bearer ${token}`,
-        //     },
-        //   }
-        // );
-
         console.log("Response ", response);
 
         setLoading(false);
-        // setView("Home");
       } catch (error) {
         setLoading(false);
         alert("Error");
@@ -124,15 +109,50 @@ const Address = () => {
           </button>
         </form>
 
-        {/* {offenses.map((offense) => (
-          <Offense
-            key={offense.file_id}
-            id={offense.file_id}
-            date={offense.offense_date}
-            description={offense.offense_description}
-            location={offense.location}
-          />
-        ))} */}
+        {Object.keys(userDB).length !== 0 && (
+          <table className="table-auto mt-4">
+            <thead>
+              <tr className="text-center bg-primary/[0.8] text-white text-sm">
+                <th className="p-1 font-medium w-[50%] pl-2">
+                  Address in database
+                </th>
+                <th className="p-1 font-medium w-[50%] pl-2">
+                  Address provided
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="hover:bg-neutral/[0.05] divide-y">
+                <td className="p-2 text-justify w-[50%] pl-2">
+                  {userDB.number}
+                </td>
+                <td className="p-2 text-justify w-[50%] pl-2">{user.number}</td>
+              </tr>
+              <tr className="hover:bg-neutral/[0.05] divide-y">
+                <td className="p-2 text-justify w-[50%] pl-2">
+                  {userDB.street}
+                </td>
+                <td className="p-2 text-justify w-[50%] pl-2">{user.street}</td>
+              </tr>
+              <tr className="hover:bg-neutral/[0.05] divide-y">
+                <td className="p-2 text-justify w-[50%] pl-2">
+                  {userDB.district}
+                </td>
+                <td className="p-2 text-justify w-[50%] pl-2">
+                  {user.district}
+                </td>
+              </tr>
+              <tr className="hover:bg-neutral/[0.05] divide-y">
+                <td className="p-2 text-justify w-[50%] pl-2">
+                  {userDB.province}
+                </td>
+                <td className="p-2 text-justify w-[50%] pl-2">
+                  {user.province}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   );
