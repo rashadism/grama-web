@@ -25,7 +25,7 @@ const Sidebar = () => {
     <div className="max-w-[22%] min-w-[22%] flex flex-col justify-between divide-y divide-neutral/[0.2]">
       <div className="flex items-center justify-center gap-2 p-4 text-lg font-medium font-mono tracking-wide">
         <GrGlobe className="text-primary" />
-        <span>Grama Portal</span>
+        <span className="text-xl">Grama Portal</span>
       </div>
       <div className="flex flex-col flex-grow divide-y divide-neutral/[0.2]">
         <div className="flex-grow">

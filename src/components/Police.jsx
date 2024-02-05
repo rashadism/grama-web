@@ -13,7 +13,7 @@ const Police = () => {
   const [nic, setNic] = useState("");
   const [offenses, setOffenses] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { user, setView } = useViewContext();
+  const { user, setSection } = useViewContext();
   const { getAccessToken } = useAuthContext();
 
   useEffect(() => {
@@ -76,6 +76,7 @@ const Police = () => {
         console.log("Response ", response);
 
         setLoading(false);
+        setSection("Home");
       } catch (error) {
         setLoading(false);
         alert("Error");
@@ -106,14 +107,16 @@ const Police = () => {
             <GrDownload />
             <div>Retrieve</div>
           </button>
-          <button
-            className="btn px-4 flex justify-center items-center gap-2 bg-primary text-white hover:bg-transparent hover:text-primary"
-            onClick={approve}
-            disabled={loading}
-          >
-            <GrCheckmark />
-            <div>Approve</div>
-          </button>
+          {Object.keys(user).length !== 0 && (
+            <button
+              className="btn px-4 flex justify-center items-center gap-2 bg-primary text-white hover:bg-transparent hover:text-primary"
+              onClick={approve}
+              disabled={loading}
+            >
+              <GrCheckmark />
+              <div>Approve</div>
+            </button>
+          )}
         </form>
         {!loading &&
           offenses.map((offense) => (

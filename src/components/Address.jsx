@@ -3,6 +3,7 @@ import { useViewContext } from "../contexts/ViewContext";
 import { useState, useEffect } from "react";
 import { GrCheckmark, GrDownload } from "react-icons/gr";
 import axios from "axios";
+import Spinner from "./Spinner";
 
 const ADDRESS_API = window.config.address_endpoint;
 const MANAGER_API = window.config.manager_endpoint;
@@ -10,10 +11,9 @@ const MANAGER_API = window.config.manager_endpoint;
 const Address = () => {
   const [nic, setNic] = useState("");
   const [loading, setLoading] = useState(false);
-  const { user, setUser, setView } = useViewContext();
+  const { user, setUser, setSection } = useViewContext();
   const [userDB, setUserDB] = useState({});
   const { getAccessToken } = useAuthContext();
-  const usr = [user, userDB];
 
   const retrieve = async (e) => {
     e.preventDefault();
@@ -22,6 +22,7 @@ const Address = () => {
         setLoading(true);
         const token = await getAccessToken();
         const template = `${ADDRESS_API}/getPersonAddress?nic=${nic}`;
+
         const response = await axios.get(template, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -65,6 +66,7 @@ const Address = () => {
         console.log("Response ", response);
 
         setLoading(false);
+        setSection("Home");
       } catch (error) {
         setLoading(false);
         alert("Error");
@@ -108,6 +110,11 @@ const Address = () => {
             <div>Approve</div>
           </button>
         </form>
+        {loading && (
+          <div className="h-screen flex items-center justify-center">
+            <Spinner />
+          </div>
+        )}
 
         {Object.keys(userDB).length !== 0 && (
           <table className="table-auto mt-4">

@@ -2,12 +2,13 @@ import React from "react";
 import { useViewContext } from "../contexts/ViewContext";
 import { useAuthContext } from "@asgardeo/auth-react";
 import { useState } from "react";
+import Spinner from "./Spinner";
 
 const IDENTITY_API = window.config.identity_endpoint;
 const MANAGER_API = window.config.manager_endpoint;
 
 const Identity = () => {
-  const { user } = useViewContext();
+  const { user, setSection } = useViewContext();
   const [loading, setLoading] = useState(false);
   const { getAccessToken } = useAuthContext();
 
@@ -34,6 +35,7 @@ const Identity = () => {
         // console.log("Response(mn) ", response);
 
         setLoading(false);
+        setSection("Home");
       } catch (error) {
         setLoading(false);
         alert("Error");
@@ -62,8 +64,7 @@ const Identity = () => {
           },
           body: JSON.stringify(data),
         });
-
-        // console.log("Response(id) ", response);
+        console.log(response);
 
         setLoading(false);
       } catch (error) {
@@ -78,39 +79,46 @@ const Identity = () => {
   return (
     <div className="bg-neutral/[0.2] px-24 py-12 flex flex-grow flex-col justify-start gap-4 max-h-screen overflow-auto">
       <div className="text-2xl font-bold">Account activation request</div>
-      <div>
-        <span className="font-bold">Name: </span> {user.name}
-      </div>
-      <div>
-        <span className="font-bold">User id:</span> {user.userID}
-      </div>
+      {loading ? (
+        <div className="h-screen flex items-center justify-center">
+          <Spinner />
+        </div>
+      ) : (
+        <>
+          <div>
+            <span className="font-bold">Name: </span> {user.name}
+          </div>
+          <div>
+            <span className="font-bold">User id:</span> {user.userID}
+          </div>
 
-      <div>
-        <span className="font-bold">Address: </span> {user.number}
-        {", "}
-        {user.street}
-        {", "}
-        {user.district}
-        {", "}
-        {user.province}
-      </div>
-      <div>
-        <span className="font-bold">Request id:</span> {user.requestID}
-      </div>
-      <div>
-        <span className="font-bold">Reason for request: </span>
-        {user.reason}
-      </div>
+          <div>
+            <span className="font-bold">Address: </span> {user.number}
+            {", "}
+            {user.street}
+            {", "}
+            {user.district}
+            {", "}
+            {user.province}
+          </div>
+          <div>
+            <span className="font-bold">Request id:</span> {user.requestID}
+          </div>
+          <div>
+            <span className="font-bold">Reason for request: </span>
+            {user.reason}
+          </div>
 
-      <div>
-        <button
-          className="btn px-4 flex justify-center items-center gap-2 mt-6"
-          onClick={() => activate(user)}
-        >
-          <div>Activate account</div>
-          {/* manager eke pass identity check, activate in identity check */}
-        </button>
-      </div>
+          <div>
+            <button
+              className="btn px-4 flex justify-center items-center gap-2 mt-6"
+              onClick={() => activate(user)}
+            >
+              <div>Activate account</div>
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 };

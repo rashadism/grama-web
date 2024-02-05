@@ -1,6 +1,6 @@
 import "@mdxeditor/editor/style.css";
 import { MDXEditor } from "@mdxeditor/editor/MDXEditor";
-import { headingsPlugin } from "@mdxeditor/editor/plugins/headings";
+import Spinner from "./Spinner";
 import { BoldItalicUnderlineToggles } from "@mdxeditor/editor/plugins/toolbar/components/BoldItalicUnderlineToggles";
 import { toolbarPlugin } from "@mdxeditor/editor/plugins/toolbar";
 import { useRef, useState } from "react";
@@ -11,7 +11,7 @@ import { useAuthContext } from "@asgardeo/auth-react";
 const MANAGER_API = window.config.manager_endpoint;
 
 const Editor = () => {
-  const { user } = useViewContext();
+  const { user, setEditor } = useViewContext();
   const [loading, setLoading] = useState(false);
   const { getAccessToken } = useAuthContext();
   const preset = `
@@ -21,17 +21,18 @@ Yours,
 Grama Niladhari
 Division: ${user.gramaID}`;
   const { setSection } = useViewContext();
+  const ref = useRef(null);
   const issue = () => {
     const post = async () => {
       try {
         setLoading(true);
         const token = await getAccessToken();
-        console.log(user, "user");
         const data = {
           ...user,
           statusID: 4,
           characterW: ref.current?.getMarkdown(),
         };
+        console.log("userdata", data);
         const response = await fetch(`${MANAGER_API}/writeCharacter`, {
           method: "POST",
           headers: {
@@ -39,24 +40,22 @@ Division: ${user.gramaID}`;
             Accept: "application/json",
             Authorization: `Bearer ${token}`,
           },
-          // mode: "no-cors",
           body: JSON.stringify(data),
         });
 
         console.log("Response ", response);
 
         setLoading(false);
-        // setSection("Home");
+        setEditor(false);
       } catch (error) {
         setLoading(false);
         alert("Error");
-        console.error("Error fetching data:", error);
+        console.log("Error fetching data:", error);
       }
     };
     post();
   };
 
-  const ref = useRef(null);
   return (
     <div className="flex flex-col gap-4">
       <button
@@ -66,7 +65,15 @@ Division: ${user.gramaID}`;
         <GrCertificate />
         Issue Certificate
       </button>
+
+      {loading && (
+        <div className="h-screen flex items-center justify-center">
+          <Spinner />
+        </div>
+      )}
+
       <MDXEditor
+        className={loading && "hidden"}
         ref={ref}
         markdown={preset}
         plugins={[

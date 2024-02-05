@@ -5,6 +5,7 @@ const ViewContext = createContext(null);
 // eslint-disable-next-line react/prop-types
 export const ViewContextProvider = ({ children }) => {
   const [section, setSection] = useState("Home");
+  const [editor, setEditor] = useState(false);
   const [derivedAuthenticationState, setDerivedAuthenticationState] = useState(
     {}
   );
@@ -13,6 +14,8 @@ export const ViewContextProvider = ({ children }) => {
   return (
     <ViewContext.Provider
       value={{
+        editor,
+        setEditor,
         section,
         setSection,
         derivedAuthenticationState,
