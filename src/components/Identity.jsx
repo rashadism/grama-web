@@ -1,7 +1,7 @@
 import React from "react";
 import { useViewContext } from "../contexts/ViewContext";
 import { useAuthContext } from "@asgardeo/auth-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Spinner from "./Spinner";
 
 const IDENTITY_API = window.config.identity_endpoint;
@@ -85,6 +85,8 @@ const Identity = ({ notify }) => {
         Userid: user.userID,
         gramaId: user.gramaID,
       };
+      const token = await getAccessToken();
+
       const response = await fetch(`${IDENTITY_API}/checkid`, {
         method: "POST",
         headers: {
@@ -94,7 +96,7 @@ const Identity = ({ notify }) => {
         },
         body: JSON.stringify(data),
       });
-      console.log(response.data);
+      console.log(response);
     };
     getStatus();
   }, []);
