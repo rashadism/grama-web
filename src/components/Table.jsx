@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import { GrFormEdit } from "react-icons/gr";
 import { useViewContext } from "../contexts/ViewContext";
 import { useAuthContext } from "@asgardeo/auth-react";
@@ -47,8 +47,7 @@ const Table = ({ handleClick }) => {
   const { derivedAuthenticationState } = useViewContext();
   const [loading, setLoading] = useState(false);
 
-  // TODO: fetch from manager
-  useEffect(() => {
+  useLayoutEffect(() => {
     const getRequests = async () => {
       try {
         setLoading(true);
@@ -76,35 +75,6 @@ const Table = ({ handleClick }) => {
     };
     getRequests();
   }, [section]);
-
-  useEffect(() => {
-    const getRequests = async () => {
-      try {
-        setLoading(true);
-        const token = await getAccessToken();
-        // console.log(token);
-        const gid = derivedAuthenticationState?.decodedIDTokenPayload?.gid_g4;
-        const response = await axios.get(
-          `${API}/getRequestsbyGramaID?gramaID=${gid}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        const data = response.data;
-        console.log("data", data);
-        setPending(data);
-
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-        console.error("Error fetching data:", error);
-      }
-    };
-    getRequests();
-  }, []);
 
   if (loading) {
     return (

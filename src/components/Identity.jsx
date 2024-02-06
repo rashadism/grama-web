@@ -32,8 +32,6 @@ const Identity = ({ notify }) => {
           body: JSON.stringify(data),
         });
 
-        // console.log("Response(mn) ", response);
-
         setLoading(false);
         notify(true);
         setSection("Home");
@@ -53,7 +51,7 @@ const Identity = ({ notify }) => {
         Userid: request.userID,
         gramaId: request.gramaID,
       };
-      // console.log("data", data);
+
       try {
         setLoading(true);
         const token = await getAccessToken();
@@ -69,7 +67,6 @@ const Identity = ({ notify }) => {
         console.log(response);
 
         setLoading(false);
-        // notify(true);
       } catch (error) {
         setLoading(false);
         notify(false);
@@ -79,6 +76,28 @@ const Identity = ({ notify }) => {
     };
     updateId();
   };
+
+  useEffect(() => {
+    const getStatus = async () => {
+      const data = {
+        NIC: user.NIC,
+        Name: user.name,
+        Userid: user.userID,
+        gramaId: user.gramaID,
+      };
+      const response = await fetch(`${IDENTITY_API}/checkid`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      });
+      console.log(response.data);
+    };
+    getStatus();
+  }, []);
 
   return (
     <div className="bg-neutral/[0.2] px-24 py-12 flex flex-grow flex-col justify-start gap-4 max-h-screen overflow-auto">

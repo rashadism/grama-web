@@ -4,7 +4,7 @@ import { useViewContext } from "../contexts/ViewContext";
 // eslint-disable-next-line react/prop-types
 const SidebarListElement = ({ title, icon: Icon, view }) => {
   // Context for active
-  const { section, setSection } = useViewContext();
+  const { section, setSection, setUser } = useViewContext();
   // console.log("key", key)
 
   return (
